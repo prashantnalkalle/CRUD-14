@@ -58,8 +58,8 @@ function createtodos(arr){
 					<td>${ele.userId}</td>
 					<td>${ele.title}</td>
 					<td>${showicon(ele.completed)}</td>
-					<td><i class="fa-regular fa-pen-to-square fa-2x text-primary" onclick='Onedit(${ele.id})'></i></td>
-					<td><i class="fa-solid fa-trash fa-2x text-danger" onclick='Onremove(${ele.id})'></i></td>
+					<td><i role='button' class="fa-regular fa-pen-to-square fa-2x text-primary" onclick='Onedit(${ele.id})'></i></td>
+					<td><i role='button' class="fa-solid fa-trash fa-2x text-danger" onclick='Onremove(${ele.id})'></i></td>
 				</tr>`
     })
     todocontainer.innerHTML = result 
@@ -112,8 +112,8 @@ function createnewtodo(newtodo,res){
 					<td>${newtodo.userId}</td>
 					<td>${newtodo.title}</td>
 					<td>${showicon(newtodo.completed)}</td>
-					<td><i class="fa-regular fa-pen-to-square fa-2x text-primary" onclick='Onedit(${res.id})'></i></td>
-					<td><i class="fa-solid fa-trash fa-2x text-danger" onclick='Onremove(${res.id})'></i></td>
+					<td><i role='button' class="fa-regular fa-pen-to-square fa-2x text-primary" onclick='Onedit(${res.id})'></i></td>
+					<td><i role='button' class="fa-solid fa-trash fa-2x text-danger" onclick='Onremove(${res.id})'></i></td>
 				`
 
     todocontainer.prepend(tr)
@@ -141,12 +141,9 @@ function Onedit(id){
             title.value = editObj.title
             userId.value = editObj.userId
             completed.value = editObj.completed
-
-
+            
             Addtodo.classList.add('d-none')
             Updatetodo.classList.remove('d-none')
-
-
         }
 
 
@@ -189,7 +186,7 @@ function onupdate(){
             Addtodo.classList.remove('d-none')
             Updatetodo.classList.add('d-none')
             
-            todoform.reset()
+         todoform.reset()
           snackbar(`The  todo with Id ${updateId} is Updated successfully!!`,'success')
 
             
@@ -208,58 +205,40 @@ function Onremove(ele){
     let removeId = ele;
 
     Swal.fire({
-    title: "Are you sure?",
-    text: "You won't be able to revert this!",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
-    confirmButtonText: "Yes, delete it!"
-    }).then((result) => {
-    if (result.isConfirmed){
-        
-        let removeUrl  =`${Base_url}/${removeId}`
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+        if (result.isConfirmed){
+            
+            let removeUrl  =`${Base_url}/${removeId}`
 
-        let xhr = new XMLHttpRequest()
-        
-        xhr.open('DELETE',removeUrl)
-        xhr.send()
+            let xhr = new XMLHttpRequest()
+            
+            xhr.open('DELETE',removeUrl)
+            xhr.send()
 
-        xhr.onload = function (){
-            if(xhr.status >= 200 && xhr.status <= 299){
-                
-                document.getElementById(removeId).remove()
+            xhr.onload = function (){
+                if(xhr.status >= 200 && xhr.status <= 299){
+                    
+                    document.getElementById(removeId).remove()
+                }
+
+
+                spinner.classList.add('d-none')
+
             }
 
-
-            spinner.classList.add('d-none')
-
         }
-
-    }
     });
-
-
-
-
 
 
 }
 
 
-
-
-
-
-
-
-
-
-
 todoform.addEventListener('submit',onsubmit)
 Updatetodo.addEventListener('click',onupdate)
-
-
-
-
-
