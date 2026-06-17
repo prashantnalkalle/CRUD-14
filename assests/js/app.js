@@ -37,7 +37,7 @@ function snackbar(msg,icon){
     swal.fire({
         title : msg,
         icon : icon,
-        timer : 3000
+        timer : 2000
     })
 }
 
@@ -144,6 +144,10 @@ function Onedit(id){
             
             Addtodo.classList.add('d-none')
             Updatetodo.classList.remove('d-none')
+            todoform.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
         }
 
 
@@ -188,6 +192,18 @@ function onupdate(){
             
          todoform.reset()
           snackbar(`The  todo with Id ${updateId} is Updated successfully!!`,'success')
+            let row = document.getElementById(updateId)
+           row.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center'
+            });
+
+            row.classList.add('highlight');
+
+            setTimeout(() => {
+                row.classList.remove('highlight');
+            }, 4000);
+
 
             
         }
@@ -200,7 +216,6 @@ function onupdate(){
 
 
 function Onremove(ele){
-    spinner.classList.remove('d-none')
 
     let removeId = ele;
 
@@ -214,6 +229,7 @@ function Onremove(ele){
         confirmButtonText: "Yes, delete it!"
         }).then((result) => {
         if (result.isConfirmed){
+            spinner.classList.remove('d-none')
             
             let removeUrl  =`${Base_url}/${removeId}`
 
@@ -236,9 +252,6 @@ function Onremove(ele){
         }
     });
 
-
 }
-
-
 todoform.addEventListener('submit',onsubmit)
 Updatetodo.addEventListener('click',onupdate)
